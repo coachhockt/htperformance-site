@@ -7,5 +7,5 @@ Personal training website for Hock Tan — HTPerformance, Oakland CA.
 - Changes go live automatically within a few minutes after pushing to GitHub
 
 ## Domain
-- Custom domain: www.htperformance.fit
+- Custom domain: 
 - Configured via the CNAME file
