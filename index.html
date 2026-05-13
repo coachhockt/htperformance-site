@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTPerformance | Redesign Concept</title>
+<title>HTPerformance | Building Strength</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,8 +16,8 @@
     --accent-gradient-h: linear-gradient(90deg, #8B6914, #D4A832, #F0D060);
     --accent-dim: #a8862a;
     --white: #f5f5f0;
-    --gray: #8a8a8a;
-    --gray-light: #c4c4c4;
+    --gray: #aaaaaa;
+    --gray-light: #d6d6d6;
     --border: #222222;
     --font-display: 'Bebas Neue', sans-serif;
     --font-body: 'Outfit', sans-serif;
@@ -50,7 +50,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 200;
     padding: 20px 48px;
     display: flex;
     justify-content: space-between;
@@ -697,6 +697,32 @@
 
   .contact-info-item a:hover { color: var(--accent); }
 
+  .reveal-info {
+    display: inline-block;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    font-size: 14px;
+    color: var(--gray-light);
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .reveal-info:hover {
+    border-color: var(--accent);
+    color: var(--accent) !important;
+  }
+
+  .reveal-info.revealed {
+    border-color: var(--accent);
+    color: var(--white) !important;
+    font-size: 18px;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+  }
+
   .contact-form {
     display: flex;
     flex-direction: column;
@@ -706,13 +732,13 @@
   .form-group input,
   .form-group textarea {
     width: 100%;
-    background: transparent;
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid #3a3a3a;
     color: var(--white);
     padding: 16px 20px;
     font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 300;
+    font-size: 16px;
+    font-weight: 400;
     transition: border-color 0.3s;
     outline: none;
   }
@@ -726,7 +752,7 @@
 
   .form-group input::placeholder,
   .form-group textarea::placeholder {
-    color: var(--gray);
+    color: #aaaaaa;
   }
 
   .form-submit {
@@ -796,10 +822,98 @@
     transform: translateY(0);
   }
 
+  /* HAMBURGER MENU */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    background: none;
+    border: none;
+    padding: 0;
+    z-index: 200;
+    position: relative;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+    background: var(--accent);
+    width: 28px;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+    background: var(--accent);
+    width: 28px;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 150;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .mobile-menu.open {
+    display: flex;
+  }
+
+  .mobile-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 3px;
+    transition: color 0.3s;
+  }
+
+  .mobile-menu a:hover {
+    color: var(--accent);
+  }
+
+  .mobile-menu .mobile-cta {
+    background: var(--accent-gradient);
+    color: var(--bg-dark);
+    padding: 14px 36px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-top: 16px;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
     .hero { padding: 100px 24px 60px; }
     .section { padding: 80px 24px; }
     .coach-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -826,7 +940,21 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Free Evaluation</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#coach" onclick="closeMenu()">COACH</a>
+  <a href="#nutrition" onclick="closeMenu()">NUTRITION</a>
+  <a href="#pricing" onclick="closeMenu()">PRICING</a>
+  <a href="#contact" onclick="closeMenu()">CONTACT</a>
+  <a href="#contact" class="mobile-cta" onclick="closeMenu()">Free Evaluation</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1006,31 +1134,47 @@
   </div>
   <div class="contact-grid" style="margin-top: 48px;">
     <div class="reveal">
-      <div class="contact-info-item">
-        <label>Phone (Text Preferred)</label>
-        <a href="tel:5108381648">(510) 838-1648</a>
+      <div class="contact-info-item" id="contactHidden">
+        <label>Contact Info</label>
+        <a href="#" class="reveal-info" onclick="revealContact(event)">Tap to reveal contact info</a>
       </div>
-      <div class="contact-info-item">
-        <label>Email</label>
-        <a href="mailto:coach.hockt@gmail.com">coach.hockt@gmail.com</a>
+      <div id="contactRevealed" style="display:none;">
+        <div class="contact-info-item">
+          <label>Phone (Text Preferred)</label>
+          <a href="#" id="phoneLink"></a>
+        </div>
+        <div class="contact-info-item">
+          <label>Email</label>
+          <a href="#" id="emailLink"></a>
+        </div>
       </div>
       <div class="contact-info-item">
         <label>Location</label>
-        <p>6496 Oakwood Dr, Oakland, CA</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=6496+Oakwood+Dr+Oakland+CA" target="_blank"><svg style="width:16px;height:16px;vertical-align:middle;margin-right:6px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.25 8 16 8 16s8-10.75 8-16c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>6496 Oakwood Dr, Oakland, CA</a>
       </div>
       <div class="contact-info-item">
         <label>Social</label>
         <a href="https://www.instagram.com/coach.hock.t/" target="_blank"><svg style="width:18px;height:18px;vertical-align:middle;margin-right:6px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@coach.hock.t</a>
       </div>
     </div>
-    <form class="contact-form reveal" action="https://formspree.io/f/xnjwwpzq" method="POST">
+    <form class="contact-form reveal" action="https://formspree.io/f/xnjwwpzq" method="POST" id="contactForm" onsubmit="return validateForm(event)">
       <div class="form-group"><input type="text" name="name" placeholder="Your Name" required></div>
       <div class="form-group"><input type="email" name="email" placeholder="Email Address" required></div>
       <div class="form-group"><input type="tel" name="phone" placeholder="Phone Number"></div>
       <div class="form-group"><input type="number" name="age" placeholder="Age" min="1" max="120"></div>
       <div class="form-group"><textarea name="injuries" placeholder="Any health complications we should know about?"></textarea></div>
       <div class="form-group"><textarea name="message" placeholder="Tell me about your fitness goals..." required></textarea></div>
+      <!-- Honeypot: invisible to humans, bots will fill it -->
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+      </div>
+      <!-- Math verification -->
+      <div class="form-group">
+        <label id="mathLabel" style="display:block;font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;"></label>
+        <input type="number" id="mathAnswer" placeholder="Your answer" required style="width:100%;background:rgba(255,255,255,0.06);border:1px solid #3a3a3a;color:var(--white);padding:16px 20px;font-family:var(--font-body);font-size:16px;font-weight:400;transition:border-color 0.3s;outline:none;">
+      </div>
       <button type="submit" class="form-submit">Send Message</button>
+      <p id="formError" style="color:#ff4444;font-size:13px;margin-top:12px;display:none;"></p>
     </form>
   </div>
 </section>
@@ -1044,6 +1188,19 @@
 </footer>
 
 <script>
+// Hamburger menu
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+}
+
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 // Scroll reveal animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1063,6 +1220,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     if (target) target.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+// Anti-bot: phone and email are encoded and only decoded on human click
+function revealContact(e) {
+  e.preventDefault();
+  var p = [53,49,48,56,51,56,49,54,52,56];
+  var num = p.map(function(c){return String.fromCharCode(c)}).join('');
+  var parts = ['coach','.','hockt'];
+  var domain = ['gmail','.','com'];
+  var addr = parts.join('') + '@' + domain.join('');
+
+  var phone = document.getElementById('phoneLink');
+  phone.textContent = '(' + num.slice(0,3) + ') ' + num.slice(3,6) + '-' + num.slice(6);
+  phone.href = 'tel:' + num;
+
+  var email = document.getElementById('emailLink');
+  email.textContent = addr;
+  email.href = 'mailto:' + addr;
+
+  document.getElementById('contactHidden').style.display = 'none';
+  document.getElementById('contactRevealed').style.display = 'block';
+}
+
+// Anti-bot: math verification
+var mathA = Math.floor(Math.random() * 10) + 1;
+var mathB = Math.floor(Math.random() * 10) + 1;
+var mathExpected = mathA + mathB;
+document.getElementById('mathLabel').textContent = 'Prove you\'re not a robot \u2014 Easy warm-up: What is ' + mathA + ' + ' + mathB + '?';
+
+function validateForm(e) {
+  var honeypot = document.querySelector('input[name="_gotcha"]');
+  if (honeypot && honeypot.value !== '') {
+    e.preventDefault();
+    return false;
+  }
+  var answer = parseInt(document.getElementById('mathAnswer').value);
+  if (answer !== mathExpected) {
+    e.preventDefault();
+    document.getElementById('formError').style.display = 'block';
+    document.getElementById('formError').textContent = 'Incorrect answer. Please try again.';
+    mathA = Math.floor(Math.random() * 10) + 1;
+    mathB = Math.floor(Math.random() * 10) + 1;
+    mathExpected = mathA + mathB;
+    document.getElementById('mathLabel').textContent = 'Prove you\'re not a robot \u2014 Easy warm-up: What is ' + mathA + ' + ' + mathB + '?';
+    document.getElementById('mathAnswer').value = '';
+    return false;
+  }
+  document.getElementById('formError').style.display = 'none';
+  return true;
+}
 </script>
 
 </body>
